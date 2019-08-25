@@ -1,0 +1,85 @@
+import net.minecraftforge.gradle.common.util.ModConfig
+
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+repositories {
+    maven { // TOP
+        name 'tterrag maven'
+        url "https://maven.tterrag.com/"
+    }
+    maven { // JEI
+        url "http://dvs1.progwml6.com/files/maven"
+    }
+}
+
+version = '1.0'
+group = 'com.yourname.modid' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'modid'
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+
+minecraft {
+    mappings channel: 'snapshot', version: "${mcp_mappings}"
+
+    // accessTransformer = file('build/resources/main/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            // property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            // property 'forge.logging.console.level', 'debug'
+            for(Project p in this.getRootProject().getSubprojects()) {
+                if(p.getName() != this.getName()) {
+                    ModConfig modConfig = new ModConfig(p, p.getName());
+                    modConfig.source(p.sourceSets.main)
+                    mods.add(modConfig);
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            // property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            // property 'forge.logging.console.level', 'debug'
+            for(Project p in this.getRootProject().getSubprojects()) {
+                if(p.getName() != this.getName()) {
+                    ModConfig modConfig = new ModConfig(p, p.getName());
+                    modConfig.source(p.sourceSets.main)
+                    mods.add(modConfig);
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
+
+    this.getRootProject().getSubprojects().each { Project p ->
+        compile p;
+    }
+
+}

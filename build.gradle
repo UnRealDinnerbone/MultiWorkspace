@@ -1,0 +1,5 @@
+task settings {
+    project.ext.devWorkspace = true
+}
+
+subprojects.each { subproject -> evaluationDependsOn(subproject.path) }
