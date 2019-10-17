@@ -2,4 +2,9 @@ task settings {
     project.ext.devWorkspace = true
 }
 
-subprojects.each { subproject -> evaluationDependsOn(subproject.path) }
+for (subproject in subprojects) {
+    evaluationDependsOn(subproject.path)
+    if(subproject.name.equals("zworkspace")) {
+//        subproject.updateAT()
+    }
+}

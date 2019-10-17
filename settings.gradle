@@ -27,7 +27,6 @@ if(workspacesDir.exists()) {
         include dir.name
         project(":" + dir.name).projectDir = file(dir.path)
     }
-
     println("Loaded Projects")
 } else {
     println("Can't loads any projects folder \'workspaces\' does not exist")
