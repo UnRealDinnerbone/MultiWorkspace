@@ -4,6 +4,7 @@
 !/src
 !/workspaces/
 workspaces
+src/main/resources/META-INF/*
 # Included Files
 !.gitmodules
 !.gitignore
