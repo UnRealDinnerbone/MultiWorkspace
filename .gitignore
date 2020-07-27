@@ -2,9 +2,8 @@
 /*
 # Included Folders
 !/src
-!/workspaces
-/workspaces/workspace/*
-
+!/workspaces/
+workspaces
 # Included Files
 !.gitmodules
 !.gitignore
