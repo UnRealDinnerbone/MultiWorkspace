@@ -1,4 +1,4 @@
-rootProject.name = 'Forge-1.14'
+rootProject.name = 'Forge-1.16'
 
 File workspacesDir = new File("workspaces")
 if(workspacesDir.exists()) {
